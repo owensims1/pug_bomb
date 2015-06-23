@@ -13,11 +13,11 @@ class PugBombService
   end
 
   def send_pug_bomb
-    pug = "http://i.dailymail.co.uk/i/pix/2013/06/13/article-0-1A4BB14C000005DC-554_634x429.jpg" #TODO Make random via API call
-    quantity.to_i.times do
-      #TODO put this into a background job
-      Mailer.pug_bomb(email, pug).deliver_now
+    pug_images = PugImageService.new(quantity).pug_image_urls
+    quantity.to_i.times do |i|
+      Mailer.pug_bomb(email, pug_images[i]).deliver_now #TODO put this into a background job
     end
+    true
   end
 
   private
